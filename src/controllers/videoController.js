@@ -13,4 +13,4 @@ export const deleteVideo = (req, res) => {
   return res.send(`Delete Video #${req.params.id}`);
 };
 
-export const upload = (req, res) => res.send("upload Video");
+export const upload = (req, res) => res.send("upload Video!");
