@@ -1,18 +1,48 @@
 import Video from "../models/Video";
 
 export const home = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
   res.render("home", { pageTitle: "Home", videos });
 };
-export const search = (req, res) => res.send("Search Video");
-export const see = (req, res) => {
-  return res.send(`Watch Video #${req.params.id}`);
-};
-export const getEdit = (req, res) => {
-  return res.render("edit", { pageTitle: "Edit Video" });
+
+export const watch = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", { pageTitle: "Video Not Found" });
+  }
+  return res.render("watch", { pageTitle: video.title, video });
 };
 
-export const postEdit = (req, res) => {};
+export const getEdit = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404");
+  }
+  return res.render("edit", { pageTitle: `Edit ${video.title}`, video });
+};
+
+export const postEdit = async (req, res) => {
+  const {
+    body: { title, description, hashtags },
+    params: { id },
+  } = req;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404");
+  }
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    hashtags: Video.formatHashtags(hashtags),
+  });
+  return res.redirect(`/videos/${id}`);
+};
 
 export const getUpload = (req, res) =>
   res.render("upload", { pageTitle: "Upload Video" });
@@ -25,7 +55,7 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashtags: hashtags.split(",").map((word) => `#${word}`),
+      hashtags: Video.formatHashtags(hashtags),
     });
     return res.redirect("/");
   } catch (error) {
@@ -35,4 +65,16 @@ export const postUpload = async (req, res) => {
       errorMessage: error._message,
     });
   }
+};
+
+export const deleteVideo = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  await Video.findByIdAndDelete(id);
+  return res.redirect("/");
+};
+
+export const search = (req, res) => {
+  return res.render("search", { pageTitle: "Search" });
 };
