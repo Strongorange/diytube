@@ -1,1 +1,11 @@
 extends base
+include mixins/video
+
+block content
+    form
+        input(type="text", name="keyword", placeholder="search by title", required) 
+        input(type="submit", value="Search")
+
+    each video in videos
+        +video(video)
+   
