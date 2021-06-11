@@ -1,7 +1,7 @@
 doctype html 
 html(lang="ko")
     head 
-        title #{pageTitle} | DIYtube 
+        title #{pageTitle} | #{siteName} 
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     main 
         body 
@@ -15,6 +15,14 @@ html(lang="ko")
                             a(href="/videos/upload") Upload Video
                         li 
                             a(href="/search") Search
+                        if loggedIn
+                            li
+                                a(href="/logout") Logout
+                        else
+                            li 
+                                a(href="/join") Join
+                            li 
+                                a(href="/login") Login
             main 
                 block content
     include partials/footer.pug
