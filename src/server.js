@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -15,8 +16,9 @@ app.use(morgan("dev"));
 app.use(
   session({
     secret: "POTATO",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/diytube" }),
   })
 );
 app.use(middlewares);
