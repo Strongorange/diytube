@@ -7,8 +7,8 @@ const userSchema = new mongoose.Schema({
   avatarUrl: String,
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  location: { type: String, required: true },
+  password: { type: String },
+  location: { type: String },
 });
 
 userSchema.pre("save", async function () {

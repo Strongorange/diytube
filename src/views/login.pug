@@ -1,4 +1,13 @@
 extends base
+block scripts
+    script(src="https://developers.kakao.com/sdk/js/kakao.js")
+    script.
+        // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+        Kakao.init('ed2a90fce79435187d048442ad549f9b');
+
+        // SDK 초기화 여부를 판단합니다.
+        console.log(Kakao.isInitialized());
+
 
 block content
     if errorMessage
@@ -10,3 +19,6 @@ block content
         br
         a(href="/users/github/start")
             span Continue with Github
+        br
+        a(href="/users/kakao/start")
+            span Continue with Kakao
