@@ -11,4 +11,5 @@ block content
         input(name="location", type="text", placeholder="Location", value=loggedInUser.location, required)
         input(type="submit", value="Update Profile")
         hr
-        a(href="/users/change-password") Change Password &rarr;
+        if !loggedInUser.socialOnly
+            a(href="/users/change-password") Change Password &rarr;

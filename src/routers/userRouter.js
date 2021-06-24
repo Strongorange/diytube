@@ -6,6 +6,7 @@ import {
   finishKakaoLogin,
   getEdit,
   postEdit,
+  getProfile,
   getChangePassword,
   postChangePassword,
 } from "../controllers/userController";
@@ -23,6 +24,7 @@ userRouter
   .all(protectMiddleware)
   .get(getChangePassword)
   .post(postChangePassword);
+userRouter.get("/:id([0-9a-f]{24})", getProfile);
 userRouter.all(publicOnly).get("/github/start", startGithubLogin);
 userRouter.all(publicOnly).get("/github/finish", finishGithubLogin);
 userRouter.all(publicOnly).get("/kakao/start", startKakaoLogin);
